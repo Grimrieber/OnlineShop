@@ -1,0 +1,135 @@
+CREATE TABLE [dbo].[Payments] (
+    [PaymentID] UNIQUEIDENTIFIER NOT NULL,
+    [OrderID] UNIQUEIDENTIFIER NOT NULL,
+    [PaymentDate] DATETIME NULL,
+    [Amount] DECIMAL(10,2) NOT NULL,
+    [PaymentMethod] NVARCHAR(50) NULL,
+    [Status] NVARCHAR(50) NULL,
+    CONSTRAINT [PK_Payments] PRIMARY KEY ([PaymentID])
+);
+GO
+
+CREATE TABLE [dbo].[Favorites] (
+    [FavoriteID] UNIQUEIDENTIFIER NOT NULL,
+    [UserID] UNIQUEIDENTIFIER NOT NULL,
+    [ProductID] UNIQUEIDENTIFIER NOT NULL,
+    [CreatedAt] DATETIME NULL,
+    CONSTRAINT [PK_Favorites] PRIMARY KEY ([FavoriteID])
+);
+GO
+
+CREATE TABLE [dbo].[Conversations] (
+    [ConversationID] UNIQUEIDENTIFIER NOT NULL,
+    [User1ID] UNIQUEIDENTIFIER NOT NULL,
+    [User2ID] UNIQUEIDENTIFIER NOT NULL,
+    [CreatedAt] DATETIME NULL,
+    CONSTRAINT [PK_Conversations] PRIMARY KEY ([ConversationID])
+);
+GO
+
+CREATE TABLE [dbo].[Messages] (
+    [MessageID] UNIQUEIDENTIFIER NOT NULL,
+    [ConversationID] UNIQUEIDENTIFIER NOT NULL,
+    [SenderID] UNIQUEIDENTIFIER NOT NULL,
+    [MessageText] NVARCHAR(MAX) NULL,
+    [SentAt] DATETIME NULL,
+    CONSTRAINT [PK_Messages] PRIMARY KEY ([MessageID])
+);
+GO
+
+CREATE TABLE [dbo].[Reviews] (
+    [ReviewID] UNIQUEIDENTIFIER NOT NULL,
+    [ProductID] UNIQUEIDENTIFIER NOT NULL,
+    [UserID] UNIQUEIDENTIFIER NOT NULL,
+    [Rating] INT NOT NULL,
+    [Comment] NVARCHAR(1000) NULL,
+    [CreatedAt] DATETIME NULL,
+    CONSTRAINT [PK_Reviews] PRIMARY KEY ([ReviewID])
+);
+GO
+
+CREATE TABLE [dbo].[Shops] (
+    [ShopID] UNIQUEIDENTIFIER NOT NULL,
+    [UserID] UNIQUEIDENTIFIER NOT NULL,
+    [ShopName] NVARCHAR(100) NOT NULL,
+    [Description] NVARCHAR(1000) NULL,
+    [CreatedAt] DATETIME NULL,
+    [LogoBase64] NVARCHAR(MAX) NULL,
+    [LogoMimeType] NVARCHAR(50) NULL,
+    [BannerBase64] NVARCHAR(MAX) NULL,
+    [BannerMimeType] NVARCHAR(50) NULL,
+    [ThemeColor] NVARCHAR(7) NULL,
+    [IsActive] BIT NULL,
+    CONSTRAINT [PK_Shops] PRIMARY KEY ([ShopID])
+);
+GO
+
+CREATE TABLE [dbo].[Products] (
+    [ProductID] UNIQUEIDENTIFIER NOT NULL,
+    [ShopID] UNIQUEIDENTIFIER NOT NULL,
+    [CategoryID] UNIQUEIDENTIFIER NOT NULL,
+    [ProductName] NVARCHAR(150) NOT NULL,
+    [Description] NVARCHAR(MAX) NULL,
+    [Price] DECIMAL(10,2) NOT NULL,
+    [StockQuantity] INT NULL,
+    [Threshold] INT NULL,
+    [CreatedAt] DATETIME NULL,
+    [UpdatedAt] DATETIME NULL,
+    [IsActive] BIT NULL,
+    CONSTRAINT [PK_Products] PRIMARY KEY ([ProductID])
+);
+GO
+
+CREATE TABLE [dbo].[ProductImages] (
+    [ImageID] UNIQUEIDENTIFIER NOT NULL,
+    [ProductID] UNIQUEIDENTIFIER NOT NULL,
+    [ImageData] NVARCHAR(MAX) NOT NULL,
+    [MimeType] NVARCHAR(100) NOT NULL,
+    [IsMain] BIT NOT NULL,
+    CONSTRAINT [PK_ProductImages] PRIMARY KEY ([ImageID])
+);
+GO
+
+CREATE TABLE [dbo].[PasswordResetTokens] (
+    [TokenId] UNIQUEIDENTIFIER NOT NULL,
+    [UserEmail] NVARCHAR(255) NOT NULL,
+    [ExpirationDate] DATETIME NOT NULL,
+    [IsUsed] BIT NOT NULL,
+    CONSTRAINT [PK__Password__658FEEEA46A1D884] PRIMARY KEY ([TokenId])
+);
+GO
+
+CREATE TABLE [dbo].[ShopMessages] (
+    [MessageID] UNIQUEIDENTIFIER NOT NULL,
+    [ShopID] UNIQUEIDENTIFIER NOT NULL,
+    [CustomerID] UNIQUEIDENTIFIER NOT NULL,
+    [MessageText] NVARCHAR(MAX) NOT NULL,
+    [SentAt] DATETIME NOT NULL,
+    [IsRead] BIT NOT NULL,
+    CONSTRAINT [PK__ShopMess__C87C037C9419AB15] PRIMARY KEY ([MessageID])
+);
+GO
+
+CREATE TABLE [dbo].[UserProductViews] (
+    [ViewID] INT IDENTITY(1,1) NOT NULL,
+    [UserID] UNIQUEIDENTIFIER NOT NULL,
+    [ProductID] UNIQUEIDENTIFIER NOT NULL,
+    [ViewedAt] DATETIME NULL,
+    CONSTRAINT [PK__UserProd__1E371C16A46A8356] PRIMARY KEY ([ViewID])
+);
+GO
+
+CREATE TABLE [dbo].[Categories_20250910] (
+    [CategoryID] UNIQUEIDENTIFIER NOT NULL,
+    [CategoryName] NVARCHAR(100) NOT NULL,
+    [ParentCategoryID] UNIQUEIDENTIFIER NULL
+);
+GO
+
+CREATE TABLE [dbo].[CartItems] (
+    [CartItemID] INT IDENTITY(1,1) NOT NULL,
+    [UserID] UNIQUEIDENTIFIER NULL,
+    [ProductID] UNIQUEIDENTIFIER NOT NULL,
+    [Quantity] INT NOT NULL,
+    [DateAdded] DATETIME NOT NULL,
+
