@@ -132,4 +132,53 @@ CREATE TABLE [dbo].[CartItems] (
     [ProductID] UNIQUEIDENTIFIER NOT NULL,
     [Quantity] INT NOT NULL,
     [DateAdded] DATETIME NOT NULL,
+    CONSTRAINT [PK__CartItem__488B0B2AB86FFF48] PRIMARY KEY ([CartItemID])
+);
+GO
+
+CREATE TABLE [dbo].[Users] (
+    [UserID] UNIQUEIDENTIFIER NOT NULL,
+    [Username] NVARCHAR(50) NOT NULL,
+    [Email] NVARCHAR(100) NOT NULL,
+    [PasswordHash] NVARCHAR(256) NOT NULL,
+    [FirstName] NVARCHAR(50) NULL,
+    [LastName] NVARCHAR(50) NULL,
+    [CreatedAt] DATETIME NULL,
+    [LastLogin] DATETIME NULL,
+    [IsEmailVerified] BIT NULL,
+    [VerificationToken] UNIQUEIDENTIFIER NULL,
+    CONSTRAINT [PK_Users] PRIMARY KEY ([UserID])
+);
+GO
+
+CREATE TABLE [dbo].[Categories] (
+    [CategoryID] UNIQUEIDENTIFIER NOT NULL,
+    [CategoryName] NVARCHAR(100) NOT NULL,
+    [ParentCategoryID] UNIQUEIDENTIFIER NULL,
+    [ImageData] NVARCHAR(MAX) NULL,
+    [MimeType] NVARCHAR(100) NULL,
+    CONSTRAINT [PK_Categories] PRIMARY KEY ([CategoryID])
+);
+GO
+
+CREATE TABLE [dbo].[Orders] (
+    [OrderID] UNIQUEIDENTIFIER NOT NULL,
+    [UserID] UNIQUEIDENTIFIER NOT NULL,
+    [OrderDate] DATETIME NULL,
+    [TotalAmount] DECIMAL(10,2) NOT NULL,
+    [Status] NVARCHAR(50) NULL,
+    CONSTRAINT [PK_Orders] PRIMARY KEY ([OrderID])
+);
+GO
+
+CREATE TABLE [dbo].[OrderItems] (
+    [OrderItemID] UNIQUEIDENTIFIER NOT NULL,
+    [OrderID] UNIQUEIDENTIFIER NOT NULL,
+    [ProductID] UNIQUEIDENTIFIER NOT NULL,
+    [Quantity] INT NOT NULL,
+    [UnitPrice] DECIMAL(10,2) NOT NULL,
+    CONSTRAINT [PK_OrderItems] PRIMARY KEY ([OrderItemID])
+);
+GO
+
 
